@@ -108,3 +108,10 @@ docker-compose run --rm api yarn migrate
 docker-compose up
 ```
 
+## Windows Compatibility
+
+Add the following to a line in your .env file to use named volumes instead of a bind mount.
+
+```
+COMPOSE_FILE=docker-compose_named-volumes.yml
+```
