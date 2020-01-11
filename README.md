@@ -23,12 +23,34 @@ The origin service ui expects service api to work on localhost,
 however in this dockerized version the both services are run in separate containers. 
 To make connections between those services work, socat process is run within ui container to forward local tcp connections to api container.
 
+## Windows Compatibility
+
+```
+WARNING: The default Docker setup on Windows uses a VirtualBox VM to host the Docker daemon. 
+Unfortunately, the mechanism VirtualBox uses to share folders between the host system and 
+the Docker container is not compatible with the memory mapped files used by MongoDB 
+(see vbox bug, docs.mongodb.org and related jira.mongodb.org bug). This means that it is not 
+possible to run a MongoDB container with the data directory mapped to the host.
+```
+
+Add the following to a line in your .env file to use named volumes instead of a bind mount. This will also work on *nix systems.
+
+``` 
+COMPOSE_FILE=docker-compose_named-volumes.yml
+```
+
 ## Usage
 
 To build the images:
 
 ```
 ./build-dev.sh
+```
+
+Or within powershell for Windows:
+
+```
+.\build-dev.ps1
 ```
 
 To configure adjust settings in .env:
@@ -106,17 +128,4 @@ docker-compose pull
 docker-compose stop xapi worker ui api nginx
 docker-compose run --rm api yarn migrate
 docker-compose up
-```
-
-## Windows Compatibility
-
-```
-WARNING: The default Docker setup on Windows uses a VirtualBox VM to host the Docker daemon. Unfortunately, the mechanism VirtualBox uses to share folders between the host system and the Docker container is not compatible with the memory mapped files used by MongoDB (see vbox bug, docs.mongodb.org and related jira.mongodb.org bug). This means that it is not possible to run a MongoDB container with the data directory mapped to the host.
-```
-
-Add the following to a line in your .env file to use named volumes instead of a bind mount. This will also work on *nix systems.
-
-
-```
-COMPOSE_FILE=docker-compose_named-volumes.yml
 ```
