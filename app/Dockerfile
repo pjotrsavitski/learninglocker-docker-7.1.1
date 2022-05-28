@@ -1,6 +1,6 @@
 FROM debian:9
 
-RUN apt-get update \
+RUN apt-get update && apt-get upgrade \
     && apt-get install -y \
         wget \
         procps \
@@ -13,18 +13,18 @@ RUN apt-get update \
         unzip \
         gettext-base \
         socat \
-    && wget -qO- https://deb.nodesource.com/setup_8.x | bash \
+    && wget -qO- https://deb.nodesource.com/setup_10.x | bash \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g yarn 
+RUN npm install -g pm2
 
 # install LL app
-ENV LL_TAG=v2.8.2
+ENV LL_TAG=v7.1.1
 RUN git clone https://github.com/LearningLocker/learninglocker.git /opt/learninglocker \
     && cd /opt/learninglocker \
-    && git checkout $LL_TAG \
-    && yarn install \
+    && npm_config_build_from_source=true yarn install --ignore-engines \
     && yarn build-all
 
 WORKDIR /opt/learninglocker
