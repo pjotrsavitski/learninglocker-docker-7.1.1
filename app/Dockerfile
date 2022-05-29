@@ -24,6 +24,7 @@ RUN npm install -g pm2
 ENV LL_TAG=v7.1.1
 RUN git clone https://github.com/LearningLocker/learninglocker.git /opt/learninglocker \
     && cd /opt/learninglocker \
+    && git checkout $LL_TAG \
     && npm_config_build_from_source=true yarn install --ignore-engines \
     && yarn build-all
 
