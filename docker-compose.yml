@@ -2,7 +2,7 @@ version: '2'
 services:
 
     mongo:
-        image: mongo:latest
+        image: mongo:4
         restart: unless-stopped
         volumes:
             - "${DATA_LOCATION}/mongo:/data/db"
@@ -14,7 +14,7 @@ services:
         restart: unless-stopped
 
     xapi:
-        image: learninglocker/xapi-service:2.1.10
+        image: learninglocker/xapi-service:latest
         restart: unless-stopped
         environment:
             - MONGO_URL=mongodb://mongo:27017/learninglocker_v2
